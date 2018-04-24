@@ -1,1 +1,2 @@
-Assignment 2 folder Nick Newell
+This is my assignment-2
+
