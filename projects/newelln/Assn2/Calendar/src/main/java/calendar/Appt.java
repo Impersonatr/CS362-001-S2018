@@ -177,7 +177,7 @@ public class Appt{
 			this.valid = false;
 		else {
 			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
-			if (startDay < 1 || startDay > NumDaysInMonth)
+			if (startDay < 1 || startDay >= NumDaysInMonth) //BUG: > to >=
 				this.valid = false;
 			else
 				this.valid = true;
@@ -303,7 +303,7 @@ public class Appt{
         setRecurNumber(recurNumber);
     }
     private void setRecurDays(int[] recurDays) {
-        if (recurDays == null) {
+        if (recurDays != null) { //BUG: == to !=
             this.recurDays = new int[0];
         }
         else {
@@ -374,7 +374,7 @@ public class Appt{
     public String toString()
     {
     	
-		if (!getValid()) {
+		if (getValid()) { //BUG: !getvalid() to getValid()
 		    System.err.println("\tThis appointment is not valid");
 		}
          String day= this.getStartMonth()+"/"+this.getStartDay()+"/"+this.getStartYear() + " at ";
