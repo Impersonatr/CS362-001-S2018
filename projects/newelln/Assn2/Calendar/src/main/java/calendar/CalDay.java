@@ -75,7 +75,7 @@ public class CalDay {
 	 */
 	public void addAppt(Appt appt) {
 		if (appt.getValid()) {
-			for (int i = 0; i < getAppts().size(); i++) { //BUG: < to <=
+			for (int i = 0; i < getAppts().size(); i++) {
 				//Put the appointment in the correct order - finish this
 				if (((Appt)getAppts().get(i)).getStartHour() >
 										appt.getStartHour()) {
@@ -173,7 +173,7 @@ public class CalDay {
 	     StringBuilder sb = new StringBuilder();
 	
 		if (isValid()) {
-			String todayDate = (getMonth()) + "/" + getDay() + "/" + getYear(); //BUG: getMonth()+1 to getMonth()
+			String todayDate = (getMonth()+1) + "/" + getDay() + "/" + getYear();
 			sb.append("\t --- " + todayDate + " --- \n");
 			sb.append(" --- -------- Appointments ------------ --- \n");
 			Iterator<Appt> itr = this.appts.iterator();

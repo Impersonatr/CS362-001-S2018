@@ -4,13 +4,7 @@
 
 package calendar;
 
-
-
-
 import org.w3c.dom.Element;
-
-
-
 
 /**
  *  This class represents a single appointment that might be stored in
@@ -177,7 +171,7 @@ public class Appt{
 			this.valid = false;
 		else {
 			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
-			if (startDay < 1 || startDay >= NumDaysInMonth) //BUG: > to >=
+			if (startDay < 1 || startDay > NumDaysInMonth)
 				this.valid = false;
 			else
 				this.valid = true;
@@ -303,7 +297,7 @@ public class Appt{
         setRecurNumber(recurNumber);
     }
     private void setRecurDays(int[] recurDays) {
-        if (recurDays != null) { //BUG: == to !=
+        if (recurDays == null) {
             this.recurDays = new int[0];
         }
         else {
@@ -374,7 +368,7 @@ public class Appt{
     public String toString()
     {
     	
-		if (getValid()) { //BUG: !getvalid() to getValid()
+		if (!getValid()) {
 		    System.err.println("\tThis appointment is not valid");
 		}
          String day= this.getStartMonth()+"/"+this.getStartDay()+"/"+this.getStartYear() + " at ";
