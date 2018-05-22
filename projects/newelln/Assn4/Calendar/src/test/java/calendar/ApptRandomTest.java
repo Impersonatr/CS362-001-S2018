@@ -4,10 +4,11 @@ import java.util.Calendar;
 import java.util.Random;
 
 import org.junit.Test;
-
-
-
 import static org.junit.Assert.*;
+
+
+
+
 
 
 
@@ -24,7 +25,7 @@ public class ApptRandomTest {
 	 * Return a randomly selected method to be tests !.
 	 */
     public static String RandomSelectMethod(Random random){
-        String[] methodArray = new String[] {"setTitle","setRecurrence"};// The list of the of methods to be tested in the Appt class
+        String[] methodArray = new String[] {"setTitle","setRecurrence","setValid","isOn"};// The list of the of methods to be tested in the Appt class
 
     	int n = random.nextInt(methodArray.length);// get a random number between 0 (inclusive) and  methodArray.length (exclusive)
     	            
@@ -66,17 +67,19 @@ public class ApptRandomTest {
 	//			System.out.println(" Seed:"+randomseed );
 				Random random = new Random(randomseed);
 				
-				 int startHour=ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				 int startMinute=ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				 int startDay=ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				 int startMonth=ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				 int startYear=ValuesGenerator.getRandomIntBetween(random, 2018, 2018);
+				 int startHour=ValuesGenerator.getRandomIntBetween(random, -1, 25);
+				 int startMinute=ValuesGenerator.getRandomIntBetween(random, -1, 65);
+				 int startDay=ValuesGenerator.getRandomIntBetween(random, -1, 32);
+				 int startMonth=ValuesGenerator.getRandomIntBetween(random, -1, 13);
+				 boolean yearFlip = ValuesGenerator.getBoolean(0.5f,random);
+				 int startYear;
+				 if(yearFlip) startYear=ValuesGenerator.getRandomIntBetween(random, 1900, 2018);
+				 else startYear=0;
 				 String title="Birthday Party";
 				 String description="This is my birthday party.";
 				 String emailAddress="xyz@gmail.com";
 
-				 //Construct a new Appointment object with the initial data	 
-				 //Construct a new Appointment object with the initial data	 
+				 //Construct a new Appointment object with the initial data
 		         Appt appt = new Appt(startHour,
 		                  startMinute ,
 		                  startDay ,
@@ -99,9 +102,23 @@ public class ApptRandomTest {
 						   int recur=ApptRandomTest.RandomSelectRecur(random);
 						   int recurIncrement = ValuesGenerator.RandInt(random);
 						   int recurNumber=ApptRandomTest.RandomSelectRecurForEverNever(random);
-						   appt.setRecurrence(recurDays, recur, recurIncrement, recurNumber);
-						}				
+						   
+						   boolean recurCheck = ValuesGenerator.getBoolean(0.5f,random);
+						   if(recurCheck) appt.setRecurrence(recurDays, recur, recurIncrement, recurNumber);
+						   else appt.setRecurrence(null, recur, recurIncrement, recurNumber);
+						}
+						else if (methodName.equals("setValid")){ appt.setValid(); }
+						else if (methodName.equals("isOn")){
+							int newDay=5;
+							int newMonth=5;
+							boolean dateCheck = ValuesGenerator.getBoolean(0.5f,random);
+							if(dateCheck) appt.isOn(newDay, newMonth, startYear);
+							else appt.isOn(startDay, startMonth, startYear);
+						}
 				}
+				
+			
+				
 				
 				 elapsed = (Calendar.getInstance().getTimeInMillis() - startTime);
 			        if((iteration%10000)==0 && iteration!=0 )
@@ -111,7 +128,7 @@ public class ApptRandomTest {
 		}catch(NullPointerException e){
 			
 		}
-	 
+		
 		 System.out.println("Done testing...");
 	 }
 
